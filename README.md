@@ -31,9 +31,14 @@ import { * } from '<path to>/jshelprs.js'
 `DB`<br>
 `Debounce`<br>
 `DOM_Parser`<br>
+`Fetch_HTML_Template`<br>
 `Fetch_Resource`<br>
 `Find_Templates`<br>
+`Fix_This_Float`<br>
+`Format_String`<br>
 `Get_All_Tabbable`<br>
+`Get_Device_Name`<br>
+`Get_File_Format`<br>
 `Get_Last_String_Part`<br>
 `Get_Media_Query_Size`<br>
 `Get_Rando_Num`<br>
@@ -59,6 +64,7 @@ import { * } from '<path to>/jshelprs.js'
 `Sort_By`<br>
 `Storage_Test`<br>
 `Strip`<br>
+`Supports_Popover`<br>
 `To_CamelCase`<br>
 `To_DropCap`<br>
 `To_InitialCaps`<br>

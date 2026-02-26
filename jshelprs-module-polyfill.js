@@ -122,162 +122,101 @@ console.info("jshelprs.js");
       console.warn("Both arguements need to be arrays", arr1, arr2);
       return false;
     }
-
+  
     const t = arr1.concat(arr2);
     const diff = [];
-
+  
     t.forEach(v => {
-
+  
       let idx = t.indexOf(v) + 1;
       let s = t.slice(idx);
-
+  
       // if s includes v = commonalities
       // if s does not include v = differences
       if (!diff.includes(v) && !s.includes(v)) {
         diff.push(v);
       }
-
+  
     });
-
+  
     return diff;
   }
-
+  
   const Array_Intersection = function Array_Intersection(arr1, arr2) {
-
+  
     if (typeof arr1 !== "object" || typeof arr2 !== "object") {
       console.warn("Both arguements need to be arrays", arr1, arr2);
       return false;
     }
-
+  
     const t = arr1.concat(arr2);
     const intersection = [];
-
+  
     t.forEach(v => {
-
+  
       let idx = t.indexOf(v) + 1;
       let s = t.slice(idx);
-
+  
       // if s includes v = commonalities
       // if s does not include v = differences
       if (!intersection.includes(v) && s.includes(v)) {
         intersection.push(v);
       }
-
+  
     });
-
+  
     return intersection;
   }
-
+  
   const Array_Unique = function Array_Unique(arr1, arr2) {
     if (typeof arr1 !== "object" || typeof arr2 !== "object") {
       console.warn("Both arguements need to be arrays", arr1, arr2);
       return false;
     }
-
+  
     const uniq = [];
-
+  
     arr1.forEach(v => {
       if (!uniq.includes(v) && !arr2.includes(v)) {
         uniq.push(v);
       }
     });
-
+  
     return uniq;
   }
-
-  const Debounce = function Debounce(period, callback) {
-    if (typeof period !== "number") return false;
-    setTimeout(() => {return callback()}, period);
-    // underscores version of debounce (using as reference)
-    // Returns a function, that, as long as it continues to be invoked, will not
-    // be triggered. The function will be called after it stops being called for
-    // N milliseconds. If `immediate` is passed, trigger the function on the
-    // leading edge, instead of the trailing.
-    // _.debounce = function(func, wait, immediate) {
-    //   var timeout, args, context, timestamp, result;
-
-    //   var later = function() {
-    //     var last = _.now() - timestamp;
-
-    //     if (last < wait && last >= 0) {
-    //       timeout = setTimeout(later, wait - last);
-    //     } else {
-    //       timeout = null;
-    //       if (!immediate) {
-    //         result = func.apply(context, args);
-    //         if (!timeout) context = args = null;
-    //       }
-    //     }
-    //   };
-
-    //   return function() {
-    //     context = this;
-    //     args = arguments;
-    //     timestamp = _.now();
-    //     var callNow = immediate && !timeout;
-    //     if (!timeout) timeout = setTimeout(later, wait);
-    //     if (callNow) {
-    //       result = func.apply(context, args);
-    //       context = args = null;
-    //     }
-
-    //     return result;
-    //   };
-    // };
-  }
-
+  
   const Class_Change = function Class_Change(ele, mthd, str) {
     if (ele instanceof HTMLElement) {
       ele.classList[mthd](str);
     } else if (ele instanceof HTMLCollection || ele instanceof Array) {
       ele.forEach(elem => elem.classList[mthd](str));
     }
-
+  
     return ele;
   }
-
-  const Convert_Hex_To_RGB = function Convert_Hex_To_RGB(h) {
-    // ref: https://css-tricks.com/converting-color-spaces-in-javascript/
-    let r = 0, g = 0, b = 0;
-
-    // 3 digits
-    if (h.length == 4) {
-      r = "0x" + h[1] + h[1];
-      g = "0x" + h[2] + h[2];
-      b = "0x" + h[3] + h[3];
-
-    // 6 digits
-    } else if (h.length == 7) {
-      r = "0x" + h[1] + h[2];
-      g = "0x" + h[3] + h[4];
-      b = "0x" + h[5] + h[6];
-    }
-
-    return "rgb("+ +r + "," + +g + "," + +b + ")";
-  }
-
+  
   const Convert_Hex_To_HSL = function Convert_Hex_To_HSL(hex) {
     let r = 0, g = 0, b = 0;
-
+  
     // 3 digits
     if (hex.length == 4) {
       r = "0x" + hex[1] + hex[1];
       g = "0x" + hex[2] + hex[2];
       b = "0x" + hex[3] + hex[3];
-
+  
     // 6 digits
     } else if (hex.length == 7) {
       r = "0x" + hex[1] + hex[2];
       g = "0x" + hex[3] + hex[4];
       b = "0x" + hex[5] + hex[6];
     }
-
+  
     // Start conversion to HSL
     // Make r, g, and b fractions of 1
     r /= 255;
     g /= 255;
     b /= 255;
-
+  
     // Find greatest and smallest channel values
     let cmin = Math.min(r,g,b),
       cmax = Math.max(r,g,b),
@@ -285,7 +224,7 @@ console.info("jshelprs.js");
       h = 0,
       s = 0,
       l = 0;
-
+  
     // Calculate hue
     // No difference
     if (delta == 0)
@@ -299,38 +238,58 @@ console.info("jshelprs.js");
     // Blue is max
     else
       h = (r - g) / delta + 4;
-
+  
     h = Math.round(h * 60);
-
+  
     // Make negative hues positive behind 360°
     if (h < 0)
         h += 360;
-
+  
     // Calculate lightness
     l = (cmax + cmin) / 2;
-
+  
     // Calculate saturation
     s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-
+  
     // Multiply l and s by 100
     s = +(s * 100).toFixed(1);
     l = +(l * 100).toFixed(1);
-
+  
     return "hsl(" + h + "," + s + "%," + l + "%)";
   }
-
-  const Convert_Odd_To_Even  = function Convert_Odd_To_Even (num) {
+  
+  const Convert_Hex_To_RGB = function Convert_Hex_To_RGB(h) {
+    // ref: https://css-tricks.com/converting-color-spaces-in-javascript/
+    let r = 0, g = 0, b = 0;
+  
+    // 3 digits
+    if (h.length == 4) {
+      r = "0x" + h[1] + h[1];
+      g = "0x" + h[2] + h[2];
+      b = "0x" + h[3] + h[3];
+  
+    // 6 digits
+    } else if (h.length == 7) {
+      r = "0x" + h[1] + h[2];
+      g = "0x" + h[3] + h[4];
+      b = "0x" + h[5] + h[6];
+    }
+  
+    return "rgb("+ +r + "," + +g + "," + +b + ")";
+  }
+  
+  const Convert_Odd_To_Even = function Convert_Odd_To_Even(num) {
     return Number.isInteger(num / 2) ? num : num - 1;
   }
-
+  
   const Convert_RGB_To_HSL = function Convert_RGB_To_HSL(r, g, b) {
     // ref: https://css-tricks.com/converting-color-spaces-in-javascript/
-
+  
     // Make r, g, and b fractions of 1
     r /= 255;
     g /= 255;
     b /= 255;
-
+  
     // Find greatest and smallest channel values
     let cmin = Math.min(r,g,b),
         cmax = Math.max(r,g,b),
@@ -338,7 +297,7 @@ console.info("jshelprs.js");
         h = 0,
         s = 0,
         l = 0;
-
+  
     // Calculate hue
     // No difference
     if (delta == 0)
@@ -352,50 +311,50 @@ console.info("jshelprs.js");
     // Blue is max
     else
       h = (r - g) / delta + 4;
-
+  
     h = Math.round(h * 60);
-
+  
     // Make negative hues positive behind 360°
     if (h < 0)
         h += 360;
-
+  
     // Calculate lightness
     l = (cmax + cmin) / 2;
-
+  
     // Calculate saturation
     s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-
+  
     // Multiply l and s by 100
     s = +(s * 100).toFixed(1);
     l = +(l * 100).toFixed(1);
-
+  
     return "hsl(" + h + "," + s + "%," + l + "%)";
-
+  
   }
-
-  const Convert_Transform_To_Matrix  = function Convert_Transform_To_Matrix (css) {
-
+  
+  const Convert_Transform_To_Matrix = function Convert_Transform_To_Matrix(css) {
+  
     var matrix_values = css.slice(css.indexOf("(") + 1, css.indexOf(")"));
     matrix_values = matrix_values.split(/,\s/);
-
+  
     return {
       "scale": parseFloat(matrix_values[0]),
       "translateX": parseInt(matrix_values[4], 10),
       "translateY": parseInt(matrix_values[5], 10)
     };
-
+  
   }
-
+  
   const Convert_Unix_Time = function Convert_Unix_Time(timestamp) {
     if ( ! timestamp ) return null;
     return new Date(timestamp * 1000).toLocaleString();
   }
-
+  
   const Copy_Array_Values = function Copy_Array_Values(srcArray) {
     // via: https://www.dyn-web.com/javascript/arrays/value-vs-reference.php
     // create empty array to hold copy
     const valueArray = [];
-
+  
     for (let i = 0, len = srcArray.length; i < len; i++) {
       // empty object to hold properties added below
       valueArray[i] = {};
@@ -404,19 +363,19 @@ console.info("jshelprs.js");
         valueArray[i][prop] = srcArray[i][prop];
       }
     }
-
+  
     return valueArray;
   }
-
+  
   const Copy_To_Clipboard = function Copy_To_Clipboard(copyTarget) {
     if ( ! copyTarget ) {
       console.warn('Copy_To_Clipboard expects one parameter consisting of target DOM node');
       return false;
     }
-
+  
     this.addEventListener('click', (e) => {
       
-      navigator.clipboard.writeText(copyTarget).then(
+      navigator.clipboard.writeText(copyTarget.textContent).then(
         () => {
           console.info('Copied to clipboard');
           e.target.textContent = 'copied';
@@ -426,17 +385,17 @@ console.info("jshelprs.js");
           e.target.textContent = 'copy fail';
         },
       );
-
+  
       let timeoutID;
       timeoutID = window.setTimeout(() => {
         window.clearTimeout(timeoutID);
         e.target.textContent = 'clipboard';
         return;
       }, 2000);
-
+  
     });
   }
-
+  
   const Create_Aspect_Ratio = function Create_Aspect_Ratio(w, h) {
     // w = w % 2 === 0 ? w : this.Convert_Odd_To_Even(w);
     // h = h % 2 === 0 ? h : this.Convert_Odd_To_Even(h);
@@ -445,11 +404,11 @@ console.info("jshelprs.js");
     let new_h = Math.round(h);
     let multiplier = 2;
     let control = Number(Math.min(new_h, new_w));
-
+  
     (function iterate() {
-      if ( this.Is_Divisible(control, multiplier) ) {
+      if (this.Is_Divisible(control, multiplier)) {
         // console.log('control: %i\tmultiplier: %i\n\n', control, multiplier);
-        if ( this.Is_Divisible(this.Array_Unique([new_w, new_h], [control]), multiplier) ) {
+        if (this.Is_Divisible(this.Array_Unique([new_w, new_h], [control]), multiplier)) {
           new_w = new_w / multiplier;
           new_h = new_h / multiplier;
           control = Number(Math.min(new_w, new_h));
@@ -457,7 +416,7 @@ console.info("jshelprs.js");
           iterate.call(this);
         }
       }
-
+  
       // optional test multiplier (testing javascript stack limits): (control / 2)
       if (multiplier === 9) {
         return;
@@ -466,64 +425,300 @@ console.info("jshelprs.js");
         iterate.call(this);
       }
     }.bind(this))();
-
+  
     ratio.w = new_w;
     ratio.h = new_h;
     ratio.d = Math.round((control / this.Array_Unique([new_w, new_h], [control])) * 100);  // percentage difference
-
+  
     return ratio;
   }
-
-  const Create_New_Element = function Create_New_Element(type, attrObj) {
-    const el = document.createElement(type);
+  
+  const Create_New_Element = function Create_New_Element(type, attrObj, ns = false) {
+    let el;
+    if (ns) {
+      el = document.createElementNS("http://www.w3.org/2000/svg", type);
+    } else {
+      el = document.createElement(type);
+    }
+  
     if (attrObj) {
       Object.entries(attrObj).forEach((attr) => {
         if (attr[1]) {
           if (typeof attr[1] === "boolean") {
-            el.setAttribute([attr[0]], "");
+            if (ns) {
+              el.setAttributeNS(null, [attr[0]], "");
+            } else {
+              el.setAttribute([attr[0]], "");
+            }
           } else {
-            el.setAttribute([attr[0]], attr[1]);
+            if (ns) {
+              el.setAttributeNS(null, [attr[0]], attr[1]);
+            } else {
+              el.setAttribute([attr[0]], attr[1]);
+            }
           }
         }
       });
     }
+    
     return el;
   }
-
-  const CSS_To_Matrix  = function CSS_To_Matrix (translateX, translateY, scale) {
+  
+  const CSS_To_Matrix = function CSS_To_Matrix(translateX, translateY, scale) {
+    // MDN Ref. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+    // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
     scale = parseFloat(scale) || 1;
-
+  
     var matrixObj = "matrix(" + scale + ", 0, 0, " + scale + ", " + parseInt(translateX, 10) + ", " + parseInt(translateY, 10) + ")";
-
+  
     return matrixObj;
-
+  
   }
-
+  
+  const DB = function DB(name) {
+    this.name = name || "_db";
+    this.local = Storage_Test("localStorage");
+    this.session = Storage_Test("sessionStorage");
+    
+    this.isKeySet = function (key) {
+      let l = localStorage.getItem(key);
+      if (l && l !== "") {
+        return true;
+      } else if (!l && l === "") {
+        return "empty";
+      } else {
+        return false;
+      }
+    };
+  
+    this.isValueInKey = function (key, val) {
+      if ( ! localStorage.getItem(key) ) {
+        localStorage.setItem(key, val);
+      }
+      return localStorage.getItem(key).split(",").indexOf(val);
+    };
+  
+    this.sessionToLocal = function(key) {
+      key = key || this.name;
+      localStorage.setItem(key, sessionStorage.getItem(key));
+      return localStorage.getItem(key);
+    };
+  
+    this.clearLocal = function() {
+      localStorage.clear();
+      localStorage.setItem(this.name, "");
+    };
+  
+    this.clearSession = function() {
+      sessionStorage.clear();
+      sessionStorage.setItem(this.name, "");
+    };
+  
+    this.setSession = function(obj, key) {
+      key = key || this.name;
+      // const blob = JSON.stringify(obj);
+      const blob = JSON.stringify(obj, Replacer);
+      sessionStorage.setItem(key, blob);
+      return obj;
+    };
+  
+    this.setLocal = function(obj, key) {
+      key = key || this.name;
+      const blob = JSON.stringify(obj, Replacer);
+      localStorage.setItem(key, blob);
+      return obj;
+    };
+  
+    this.getLocal = function(key) {
+      key = key || null;
+      if (!key) {
+        let l = this.isKeySet(this.name);
+        if (!l) {
+          return false;
+        } else {
+          key = this.name;
+        }
+      }
+  
+      const blob = localStorage.getItem(key);
+      if (blob === "") {
+        return "empty";
+      } else {
+        return JSON.parse(blob, Reviver);
+      }
+    };
+  
+    this.getSession = function(key) {
+      key = key || this.name;
+      const blob = sessionStorage.getItem(key) ?? false;
+      if ( ! blob || blob === "" ) {
+        return false;
+      } else {
+        return JSON.parse(blob, Reviver);
+      }
+    };
+  
+    this.getCollection = function(collection) {
+      let arr = [];
+      const k = Object.keys(localStorage);
+      k.forEach((key) => {
+        if (key.includes(collection)) arr.push(key);
+      });
+      return arr;
+    };
+    
+    this.clearRecord = function(record) {
+      localStorage.removeItem(record);
+    };
+  }
+  
+  const Debounce = function Debounce(period, callback) {
+    if (typeof period !== "number") return false;
+    let timeoutID;
+    timeoutID = window.setTimeout(() => {
+      window.clearTimeout(timeoutID);
+      return callback();
+    }, period);
+  }
+  
+  const DOM_Parser = function DOM_Parser(str, id) {
+    id = id || null;
+    const parser = new DOMParser();
+    let fragment = parser.parseFromString(str, 'text/html');
+    fragment = (id !== null ? fragment.getElementById(id) : fragment.body.firstElementChild);
+    return fragment;
+  }
+  
+  /**
+   * Retrieve HTMLTemplateElement from .html file using a no-op fetch call.
+   * @param {String} templatePath - /path/to/file/directory/filename.html
+   * @param {Object} [templateSelector] - optional query using the templates attr:value assignment (defaults to root node)
+   * @return 'Thennable' promise. When fulfilled the value contains a DOM tree representation of the HTMLTemplateElement (no shadowroot).
+   */
+  const Fetch_HTML_Template = async function Fetch_HTML_Template(templatePath, templateSelector) {
+    
+    return fetch(`${templatePath}`).then((res, err) => {
+      if (res) {
+        if (res.ok) {
+          return res.text();
+        } else {
+          console.warn('something went wrong with the response: %o', res);
+        }
+      }
+  
+      if (err) return err;
+  
+    }).then( (res, err) => {
+  
+      if (err) return err;
+  
+      const parser = new DOMParser();
+      let fragment = parser.parseFromString(res, 'text/html');
+      if ( fragment.querySelectorAll('html > template').length > 1 && ! templateSelector ) {
+        console.warn("Multiple root template nodes found. You need to pass in a querySelector arguement as the 2nd parameter (templateSelector).");
+        return false;
+      }
+      let templateNode = fragment.querySelector('template');
+      if ( templateSelector ) {
+        let selectorString;
+        for (const prop in templateSelector) {
+          selectorString = `[${prop}=${templateSelector[prop]}]`;
+        }
+        templateNode = fragment.querySelector(selectorString);
+      }
+      console.warn('templateNode: ', templateNode);
+      fragment = templateNode.content.cloneNode(true).children[0];
+      return fragment;
+  
+    });
+  }
+  
+  const Fetch_Resource = function Fetch_Resource(uri = '', options = {}, handler) {
+    let res;
+    return new Promise(function(resolve, reject) {
+      fetch(uri, options).then(res => {
+        let responseData;
+        if ( ! res.ok ) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        try {
+          responseData = res.json();
+          if (responseData.hasOwnProperty('error')) {
+            throw responseData;
+          }
+        } catch(error) {
+          return error;
+        }
+        return responseData;
+      }, error => {
+        reject(error);
+      })
+      .then(res => {
+        if ( handler ) {
+          resolve(handler(res));
+        } else {
+          resolve(res);
+        }
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+  
   const Find_Templates = function Find_Templates(map) {
     const templates = {};
-
+  
     (function looper(targetNode) {
       targetNode = targetNode || document;
       targetNode.querySelectorAll('[data-template]').forEach((node) => {
         const placeHolder = node.dataset.template;
         templates[placeHolder] = node;
-
+  
         if (node.content.querySelector('[data-template]')) {
           looper(node.content);
         }
       });
     })();
-
+  
     if (map) {
       map._templatesMap.forEach((val, key) => {
         let frag = document.createRange().createContextualFragment('<template>' + val + '</template>').firstElementChild;
         templates[key] = frag;
       });
     }
-
+  
     return templates;
   }
-
+  
+  const Fix_This_Float = function Fix_This_Float(num, digits = 7) {
+    if (typeof num !== 'number' || Number.isNaN(num)) return false;
+    if (Number.isInteger(num)) {
+      return parseInt(new Number(num).toPrecision(2), 10);
+    }
+    return parseFloat(new Number(num));
+  }
+  
+  const Format_String = function Format_String(str, method) {
+    switch (method) {
+      case "lower":
+        return str.toLowerCase();
+      case "upper":
+        return str.toUpperCase();
+      case "kebab":
+        return To_KebabCase(str);
+      case "camel":
+        return To_CamelCase(str);
+      case "dropCap":
+        return To_DropCap(str);
+      case "initial":
+        return To_InitialCaps(str);
+      case "concat":
+        return str.split(" ").join("");
+      default: 
+        return str;
+    }
+  }
+  
   const Get_All_Tabbable = function Get_All_Tabbable(startNode) {
     console.info('%cfn:Get_All_Tabbable', debug.fn);
   
@@ -544,62 +739,165 @@ console.info("jshelprs.js");
   
     return tabbable;
   }
-
-  const Get_Last_String_Part  = function Get_Last_String_Part ( str, char ) {
+  
+  const Get_Device_Name = function Get_Device_Name() {
+  
+    // device maps
+    const iosDeviceMapping = new Map([
+      ['320x480', 'IPhone 4S, 4, 3GS, 3G, 1st gen'],
+      ['320x568', 'IPhone 5, SE 1st Gen,5C, 5S'],
+      ['375x667', 'IPhone SE 2nd Gen, 6, 6S, 7, 8'],
+      ['375x812', 'IPhone X, XS, 11 Pro, 12 Mini, 13 Mini'],
+      ['390x844', 'IPhone 13, 13 Pro, 12, 12 Pro'],
+      ['414x736', 'IPhone 8+'],
+      ['414x896', 'IPhone 11, XR, XS Max, 11 Pro Max'],
+      ['428x926', 'IPhone 13 Pro Max, 12 Pro Max'],
+      ['476x847', 'IPhone 7+, 6+, 6S+'],
+      ['744x1133', 'IPad Mini 6th Gen'],
+      [
+        '768x1024',
+        'IPad Mini (5th Gen), IPad (1-6th Gen), iPad Pro (1st Gen 9.7), Ipad Mini (1-4), IPad Air(1-2)  ',
+      ],
+      ['810x1080', 'IPad 7-9th Gen'],
+      ['820x1180', 'iPad Air (4th gen)'],
+      ['834x1194', 'iPad Pro (3-5th Gen 11)'],
+      ['834x1112', 'iPad Air (3rd gen), iPad Pro (2nd gen 10.5)'],
+      ['1024x1366', 'iPad Pro (1-5th Gen 12.9)'],
+    ]);
+  
+    const desktopDeviceMapping = new Map([
+      ['Win32', 'windows'],
+      ['Linux', 'linux'],
+      ['MacIntel', 'macos'],
+      ['macOS', 'macos'],
+    ]);
+  
+    // get device name for android
+    const getAndroidDeviceName = () => {
+      const androidUserAgentString = window.navigator.userAgent.slice(window.navigator.userAgent.indexOf('Android'));
+      const androidDeviceName = androidUserAgentString.slice(androidUserAgentString.indexOf('; ') + 1, androidUserAgentString.indexOf(')'));
+      
+      if ( androidDeviceName ) {
+        return androidDeviceName.trim().split(' ')[0];
+      }
+  
+      return 'Android';
+  
+    };
+  
+    // get device name for ios
+    const getIosDeviceName = () => {
+      const screenResolution = `${window.screen.width}x${window.screen.height}`;
+      const device = iosDeviceMapping.get(screenResolution);
+      
+      if ( device ) {
+        return device;
+      }
+  
+      return 'iphone';
+  
+    };
+  
+    // get device name for desktop
+    const getDesktopDeviceName = () => {
+      const platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown';
+      device = desktopDeviceMapping.get(platform) ?? 'Unknown';
+      
+      return device;
+  
+    };
+    
+    let device = '';
+  
+    // check if mobile device
+    const isMobileDevice = window.navigator.userAgent
+      .toLowerCase()
+      .includes('mobi');
+  
+    if (isMobileDevice) {
+  
+      if ( window.navigator.userAgent.includes('Android') ) {
+        device = 'Android'; // getAndroidDeviceName();
+      } else {
+        device = 'iOS'; // getIosDeviceName();
+      }
+  
+    } else {
+      const device = getDesktopDeviceName();
+    }
+      
+    return device;
+  }
+  
+  const Get_File_Format = function Get_File_Format(fullpath) {
+    return fullpath.split('.').pop();
+  }
+  
+  const Get_Last_String_Part = function Get_Last_String_Part(str, char) {
     // returns everything after the last occurence of 'char'
     var i = str.lastIndexOf(char) + 1;
     return str.slice(i);
   }
-
-  const Get_Media_Query_Size  = function Get_Media_Query_Size ( w, h ) {
+  
+  const Get_Media_Query_Size = function Get_Media_Query_Size(w, h) {
     // console.log(int);
-
+  
     let site_landscape = 415;
     let site_xs = 414;
     let site_sm = 576;
     let site_md = 768;
     let site_lg = 1024;
-
+  
     w = w || 0;
     h = h || 0;
-
-    if ( w === 0 || h === 0 ) {
+  
+    if (w === 0 || h === 0) {
       return false;
-    } else if ( w <= site_xs ) {
+    } else if (w <= site_xs) {
       return 'xs'; // xs: w-414
-    } else if ( w > site_xs && w < site_sm ) {
+    } else if (w > site_xs && w < site_sm) {
       return 'sm'; // sm: w414-576
-    } else if ( w >= site_sm && w < site_md ) {
+    } else if (w >= site_sm && w < site_md) {
       return 'md'; // md: w[576]-768
     } else if (w >= site_md && w < site_lg && h <= site_landscape) {
       return 'md'; // md: w[576]-1024 h[-415]
-    } else if ( w >= site_md && w < site_lg && h > site_landscape ) {
+    } else if (w >= site_md && w < site_lg && h > site_landscape) {
       return 'lg'; // lg: w[768]-1024 h415~
-    } else if ( w >= site_lg ) {
+    } else if (w >= site_lg) {
       return 'xl'; // xl: w[1024~]
     } else {
       return false;
     }
   }
-
+  
   const Get_Rando_Num = function Get_Rando_Num() {
     const cryptoObj = window.crypto || window.msCrypto; // for IE 11
     const num = new Uint32Array(1);
     cryptoObj.getRandomValues(num);
     return num;
   }
-
-  // REFACTOR
-  const Get_Window_Size  = function Get_Window_Size () {
+  
+  // TODO: refactor
+  const Get_Window_Size = function Get_Window_Size(media) {
+    media = media || false;
     let w = window.innerWidth;
     let h = window.innerHeight;
-    return this.Get_Media_Query_Size( w, h );
+    
+    if (media) {
+      return Get_Media_Query_Size(w, h);
+    } else {
+      return [w,h];
+    }
   }
-
+  
   const Is_Divisible = function Is_Divisible(num, multiplyBy) {
     return Number.isInteger(num / multiplyBy) ? true : false;
   }
-
+  
+  const Is_Empty_Object = function Is_Empty_Object(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+  
   const Iterate = function Iterate(iterator) {
     let values = [];
     let val = iterator.next();
@@ -609,7 +907,7 @@ console.info("jshelprs.js");
     }
     return values;
   }
-
+  
   const JSON_Prettify = function JSON_Prettify(str, ndnt) {
     if (typeof str !== "string") return false;
     if (ndnt && typeof ndnt !== "number") return false;
@@ -624,33 +922,68 @@ console.info("jshelprs.js");
       return `Not valid JSON input: ${err}\n`;
     }
   }
-
+  
   const KebabClass = function KebabClass(str) {
     return str.toLowerCase().split(" ").join("-");
   }
-
-  const NodeDevMode = function NodeDevMode() {
-    if (typeof process === 'object') {
-      return process.env.NODE_ENV === "development" ? true : false;
-    } else {
-      return false;
-    }
+  
+  /**
+   * This function allow you to modify a JS Promise by adding some status properties.
+   * Based on: http://stackoverflow.com/questions/21485545/is-there-a-way-to-tell-if-an-es6-promise-is-fulfilled-rejected-resolved
+   * But modified according to the specs of promises : https://promisesaplus.com/
+   */
+  const Make_Querable_Promise = function Make_Querable_Promise(promise) {
+    // Don't modify any promise that has been already modified.
+    if (promise.isFulfilled) return promise;
+  
+    // Set initial state
+    let isPending = true;
+    let isRejected = false;
+    let isFulfilled = false;
+  
+    // Observe the promise, saving the fulfillment in a closure scope.
+    const result = promise.then(
+        function(v) {
+            isFulfilled = true;
+            isPending = false;
+            return v; 
+        }, 
+        function(e) {
+            isRejected = true;
+            isPending = false;
+            throw e; 
+        }
+    );
+  
+    result.isFulfilled = function() { return isFulfilled; };
+    result.isPending = function() { return isPending; };
+    result.isRejected = function() { return isRejected; };
+  
+    return result;
   }
-
+  
   const Matrix_To_CSS = function Matrix_To_CSS(obj) {
+    // MDN Ref. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+    // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
+    
     if (obj === "null") {
       return "matrix(1,0,0,1,0,0)";
     }
-
+  
     return "matrix(" + obj.scale + ",0,0," + obj.scale + "," + obj.translateX + "," + obj.translateY + ")";
   }
-
+  
+  const NodeDevMode = function NodeDevMode(str) {
+    const _str = str ?? "development";
+    return process?.env?.NODE_ENV === _str ? true : false;
+  }
+  
   const Parse = function Parse(str) {
     const regStripExp = /(&lt;%=.+\((.+)\)\s(?:\{?)\n?(.+)(\n|\n.+|.+?)\}\s=%&gt;)/g;
     let m = regStripExp.exec(str);
     return m;
   }
-
+  
   const Parse_String_As_Props = function Parse_String_As_Props(str, obj, splitter = '.') {
     let keys = str.split(splitter);
     let accessor = obj;
@@ -663,12 +996,12 @@ console.info("jshelprs.js");
   
     return accessor;
   }
-
+  
   const Print_Object_State = function Print_Object_State(obj) {
     let staticObj = JSON.stringify(obj);
     return JSON.parse(staticObj);
   }
-
+  
   // min & max both inclusive
   const Random_Int_Between = function Random_Int_Between(min, max) {
     min = Math.ceil(min);
@@ -676,7 +1009,7 @@ console.info("jshelprs.js");
     let rando = Math.floor(Math.random() * (max - min + 1)) + min;
     return rando;
   }
-
+  
   const Replacer = function Replacer(key, value) {
     const originalObject = this[key];
     if (originalObject instanceof Map) {
@@ -690,7 +1023,7 @@ console.info("jshelprs.js");
     // USAGE:
     // const originalValue = new Map([["a", 1]]);
     // const str = JSON.stringify(originalValue, replacer);
-
+  
     // DEEP NESTING:
     // const originalValue = [
     //   new Map([["a", {
@@ -700,7 +1033,11 @@ console.info("jshelprs.js");
     //   }]])
     // ];
   }
-
+  
+  const Report_Error = function Report_Error(message) {
+    console.error(message);
+  }
+  
   const Reviver = function Reviver(key, value) {
     if (typeof value === "object" && value !== null) {
       if (value.dataType === "Map") {
@@ -712,53 +1049,50 @@ console.info("jshelprs.js");
     // const newValue = JSON.parse(str, reviver);
     // console.log(originalValue, newValue);
   }
-
-  const Report_Error  = function Report_Error ( message ) {
-    console.error(message);
-  }
-
-  const Round_Precision  = function Round_Precision (num, precision) {
+  
+  const Round_Precision = function Round_Precision(num, precision) {
     // ex: RoundPrecision( 20.238, 2 )
     // => 20.24
     var multiplier = Math.pow(10, precision);
     return Math.round(num * multiplier) / multiplier;
   }
-
+  
   const Set_Styles = function Set_Styles(elem, props) {
     if (typeof props !== "object") {
       console.warn("Props argument needs to be an object, e.g: { <ILE CSS Property>: <value><units> }");
       return false;
     }
-
+  
     Object.entries(props).forEach((prop) => {
       elem.style[prop[0]] = prop[1];
     });
-
+  
     return true;
   }
-
+  
   const Size_To_Text = function Size_To_Text(ele, scale) {
     scale = scale || parseInt(window.getComputedStyle(ele).getPropertyValue("font-size").slice(0, -2));
     const str = ele.value;
     // console.log("string: %s\nchar: %d\nscale: %d\nchar/scale: %d", str, str.length, scale, str.length * (scale/2));
-
+  
     ele.style.width = (str.length * (scale/2)) + "px";
     return true;
   }
-
-  const Sort_By  = function Sort_By (arr, type, prop, order) {
+  
+  const Sort_By = function Sort_By(arr, type, prop, order) {
     // console.log("arr: %O\ntype: %s\nprop: %s\norder: %s", arr, type, prop, order);
-
+  
     if (typeof arr !== "object") {
       console.error("Paramter one should either be an array or an object list that can be converted to one.");
       return false;
     }
-
+  
     type = type || "";      // string, ('num','str') defines what data type to wrangle from the 'a' and 'b' params, defaults to string
     prop = prop || null;    // string, refers to the object property each item in the arr list should be compared against
-    order = order || "asc";  // string, ('asc','desc') defines the desired order to return results
-
-    const wrangleType = function wrangleType(thing) {
+    order = order || "asc";  // string, ('asc','dsc') defines the desired order to return results
+  
+  
+    function wrangleType(thing) {
       if (type === String || type === "string" || type === "str" || type === "") {
         return thing.toUpperCase(); // ignores upper and lowercase
       } else if (type === "int" || type === "integer") {
@@ -774,14 +1108,14 @@ console.info("jshelprs.js");
         return false;
       }
     }
-
+  
     switch (order) {
-
+  
       case "asc":
-
+  
         arr.sort(function (a, b) {
           let thing_a, thing_b;
-
+  
           if (a instanceof Array) {
             // a and b are most likely Object.entries arrays
             // which means the key is a[0], and value is a[1]
@@ -791,26 +1125,26 @@ console.info("jshelprs.js");
             thing_a = wrangleType(a[prop]);
             thing_b = wrangleType(b[prop]);
           }
-
+  
           if (thing_a < thing_b) {
             return -1;
           }
-
+  
           if (thing_a > thing_b) {
             return 1;
           }
-
+  
           return 0;     // thing_a and thing_b must be equal at this point
-
+  
         });
-
+  
         return arr;
-
+  
       case "dsc":
-
+  
         arr.sort(function (a, b) {
           let thing_a, thing_b;
-
+  
           if (a instanceof Array) {
             // a and b are most likely Object.entries arrays
             // which means the key is a[0], and value is a[1]
@@ -820,25 +1154,25 @@ console.info("jshelprs.js");
             thing_a = wrangleType(a[prop]);
             thing_b = wrangleType(b[prop]);
           }
-
+  
           if (thing_a > thing_b) {
             return -1;
           }
-
+  
           if (thing_a < thing_b) {
             return 1;
           }
-
+  
           return 0;     // thing_a and thing_b must be equal at this point
-
+  
         });
-
+  
         return arr;
     }
-
+  
   }
-
-  const Storage_Test  = function Storage_Test (type) {
+  
+  const Storage_Test = function Storage_Test(type) {
     try {
       var storage = window[type];
       var x = "__storage_test__";
@@ -861,7 +1195,7 @@ console.info("jshelprs.js");
         storage.length !== 0;
     }
   }
-
+  
   const Strip = function Strip(obj) {
     // usage:
     // NOTE: assumes all nodes with 'data-template' attributes are collected/stored
@@ -906,13 +1240,13 @@ console.info("jshelprs.js");
       if (outerHTML.match(regStripCurly)) {
         outerHTML.match(regStripCurly).forEach((m) => {
           let v = m.substring(2, m.length - 2);
-
+  
           if (v.indexOf(".") !== -1) {
             v = v.split(".");
-
+  
             let clue = Object.assign({}, obj);
             let suspect = "";
-
+  
             looper:
             for (let val of v) {
               if (clue.hasOwnProperty(val)) {
@@ -923,7 +1257,7 @@ console.info("jshelprs.js");
                 break looper;
               }
             }
-
+  
             v = suspect;
             clue = null;
           } else if (v.indexOf("-") !== -1) {
@@ -942,31 +1276,57 @@ console.info("jshelprs.js");
           } else {
             v = obj[v];
           }
-
+  
           if (v) {
             matches.set(m, v);
           } else {
-            matches.set(m, "");
+            // removed so as to preserve the bracketed values
+            // matches.set(m, "");
           }
-
+  
         });
-
+  
         matches.forEach((val, key) => {
           const re = new RegExp(key, "g");
           outerHTML = outerHTML.replace(re, val);
         });
-        let newOuterHTML = document.createRange().createContextualFragment(outerHTML);
+  
+        const range = document.createRange();
+        let newOuterHTML = range.createContextualFragment(outerHTML);
+  
+        // NOTE: 04/06/24, JG
+        // The following condition was introduced after realizing that harvested template nodes
+        // containing only one child with no children of itself (e.g. <img {{...}} />, <col {{...}}/>)
+        // would return only an empty document-fragment. The caveat in using the conditional
+        // is that the range.selectNode method relies on the 'el' variable - itself derived at the 
+        // beginning of the Strip function. Since I don't completely understand what createContextualFragment
+        // provides to range methods with regard to dom selection, my reason for doubting the effectiveness
+        // of the condition is that there might be more than one type of 'el' node further up the DOM tree.
+        if ( newOuterHTML.children.length === 0 ) {
+          range.selectNode(document.getElementsByTagName(el.localName).item(0));
+          newOuterHTML = range.createContextualFragment(outerHTML);
+        }
+  
         return newOuterHTML.children[0];
       } else {
         return el;
       }
     }
   }
-
-  const To_CamelCase = function To_CamelCase(str) {
+  
+  const Supports_Popover = function Supports_Popover() {
+    if ( HTMLElement.prototype.hasOwnProperty('popover') ) {
+      return true;
+    } else {
+      console.warn('Heads up! This browser doesn\'t support the Popover API');
+      return false;
+    }
+  }
+  
+  const To_CamelCase = function To_CamelCase(str, titleCase=false) {
     let a = [];
     let n;
-
+  
     if (str.indexOf("-") !== -1) {
       n = str.split("-");
     } else if (str.indexOf(" ") !== -1) {
@@ -978,30 +1338,50 @@ console.info("jshelprs.js");
     } else {
       n = [str];
     }
-
-    a.push(n[0].toLowerCase());
+  
+    if ( !titleCase ) {
+      a.push(n[0].toLowerCase());
+    } else {
+      let fltr = n[0][0].toUpperCase();
+      fltr = fltr + n[0].slice(1);
+      a.push(fltr);
+    }
     for (let i=1; i <= n.length - 1; i++) {
       let s = Array.from(n[i]);
       s.unshift(s.shift().toUpperCase());
       a.push(s.join(""));
     }
-
+  
     return a.join("").toString();
   }
-
+  
+  const To_DropCap = function To_DropCap(str) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
+  
+  const To_InitialCaps = function To_InitialCaps(str, sep = '-') {
+    const arr = str.split(sep);
+    let transform = "";
+    arr.forEach((val, idx) => {
+      transform += val.slice(0,1).toUpperCase() + val.substring(1);
+      if (idx > 0) transform += " ";
+    });
+    return transform;
+  }
+  
   const Toggle_Fullscreen = function Toggle_Fullscreen(el) {
     el = el || document.body;
-
+  
     const fsPrefixer = {
       "requestFullscreen": ["requestFullscreen", "webkitRequestFullScreen"],
       "fullscreenEnabled": ["fullscreenEnabled", "webkitFullscreenEnabled"],
       "exitFullscreen": ["exitFullscreen", "webkitExitFullscreen"],
       "fullscreenElement": ["fullscreenElement", "webkitFullscreenElement"]
     };
-
+  
     let prefixIndex = el.requestFullscreen === undefined ? 1 : 0;
     console.info("prefixIndex", prefixIndex);
-
+  
     if (!document[fsPrefixer.fullscreenElement[prefixIndex]]) {
       console.info("Entering fullscreen");
       el[fsPrefixer.requestFullscreen[prefixIndex]]();
@@ -1010,8 +1390,9 @@ console.info("jshelprs.js");
       document[fsPrefixer.exitFullscreen[prefixIndex]]();
     }
   }
-
-  const Trigger_Event = function Trigger_Event(eventType, options) {
+  
+  // currently only supports 'click' and 'CustomEvent' types
+  const Trigger_Event = function Trigger_Event(eventType, options, target = window) {
     switch (eventType) {
       case 'click':
         return new MouseEvent('click', Object.assign({
@@ -1021,10 +1402,26 @@ console.info("jshelprs.js");
           detail: details
         }, options));
       default:
-        return this.dispatchEvent(new CustomEvent(eventType, options));
+        return target.dispatchEvent(new CustomEvent(eventType, options));
     }
   }
-
+  
+  const Type_Exception = function Type_Exception(value, type, caller) {
+    this.value = value;
+    this.type = type;
+    this.caller = caller || '';
+    if (typeof caller === 'string') {
+      this.message = 'The type returned (e.g.: ' + typeof this.value + ') at ' + this.caller + ' does not match the expected ' + this.type + ' type.';
+    } else if (typeof caller === 'object') {
+      this.message = 'The type expected does not match: expected: ' + this.type + ', actual: ' + this.value + ', caller: ' + this.caller;
+    } else {
+      this.message = 'The type expected does not match: expected: ' + this.type + ', actual: ' + this.value;
+    }
+    this.toString = function() {
+      return this.value + this.message;
+    };
+  }
+  
   const TypeOf_Object = function TypeOf_Object(obj) {
     if (typeof obj !== "object") {
       console.warn("TypeOf_Object argument must be an Array, Map, or Object");
@@ -1035,12 +1432,40 @@ console.info("jshelprs.js");
     } else if (obj instanceof Map) {
       console.info("TypeOf_Object: Map");
       return "map";
+    } else if (obj instanceof Set) {
+      console.info("TypeOf_Object: Set");
+      return "set";
     } else {
       console.info("TypeOf_Object: Object");
       return "object";
     }
   }
-
+  
+  const Validate_String_As = function Validate_String_As(str, pattern) {
+    const mailRegex = /^[a-zA-Z][a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}$/g;
+    // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const urlRegx = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    switch (pattern) {
+      case 'email':
+        // console.log(str.match(mailRegex));
+        if (str.match(mailRegex)) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'url':
+        // console.log(str.match(urlRegx));
+        if (str.match(urlRegx)) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'date':
+        break;
+    }
+  }
+  
   const Wait_For_AnimationEnd = function Wait_For_AnimationEnd(el, cb, ...options) {
     el.addEventListener("animationend", function anime(e) {
       // console.log("animationend", e);
@@ -1053,7 +1478,7 @@ console.info("jshelprs.js");
       return cb();
     }, false);
   }
-
+  
   // use this when animating an element whose display property is set to none
   // ex: foo = hidden element to animate
   // foo.hidden = false;
@@ -1066,10 +1491,9 @@ console.info("jshelprs.js");
       window.clearTimeout(waitTimeout);
     }, 0);
   }
-
+  
   const Wait_For_TransitionEnd = function Wait_For_TransitionEnd(el, cb, ...options) {
     el.addEventListener("transitionend", function anime(e) {
-      // console.log("transitionend", e);
       if (e.target !== el) {
         return false;
       } else if (options['prop'] && e.propertyName !== options['prop']) {
@@ -1079,48 +1503,36 @@ console.info("jshelprs.js");
       return cb();
     }, false);
   }
-
-  const Fetch_Resource = function Fetch_Resource(uri = '', data = {}, handler, useFetch = true) {
-    console.info('%c--------Fetch_Resource--------\nuri: %s\ndata: %O', debug.fn, uri, data);
-
-    if (useFetch && self.fetch) {
-      // console.log('%cfetch is supported. using fetch', debug.small);
-      fetch(uri, data)
-        .then(function(response) {
-          // console.log('%cresponse: %O', debug.event, response);
-          return handler(response);
-        });
-        // .then(function(response) {
-        //   console.log('%cresponse: %O', debug.event, response);
-        //   return handler(response);
-        // });
-    } else {
-        // use a XMLHttpRequest here
-      // console.log('%cfetch not supported\n%cusing XMLHttpRequest: %O', debug.alert, debug.small);
-      let xmlhttp;
-      xmlhttp = new XMLHttpRequest();
-      if (uri instanceof Request) uri = uri.url;
-      xmlhttp.responseType = 'blob';
-      xmlhttp.open(data.method, uri, true);
-      // NOTE: When sending FormData objects over xhr (using xhr, not fetch)
-      // the current status quo is to leave the Content-Type header completely off
-      // as the browser will supply the most appropriate header.
-      // This seems to allieviate/avoid the various WebkitBoundary issues
-      //
-      // xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 2) {
-          // console.log('%cspinning...', debug.small);
-        }
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          // console.log('%cfinished...', debug.small);
-          // console.log('%cresponse: %O', debug.event, xmlhttp);
-          return handler(xmlhttp);
-        }
-      };
-
-      xmlhttp.send(null);
+  
+  const Wrangle_Number = function Wrangle_Number(num) {
+    // atttempt to figure out what type of number 'num' is
+    // float, int, safeInt
+    let numberDetail = {};
+  
+    if (typeof num === 'string') {
+      if (num.length === parseInt(num, 10).toString().length) {
+        num = parseInt(num);
+      } else {
+        num = parseFloat(num);
+      }
     }
+  
+    if (Number.isFinite(num)) {
+      if (Number.isInteger(num)) {
+        numberDetail.type = 'int';
+      } else {
+        let points = num.toString().split('.')[1].length;
+        if (points > 0) {
+          numberDetail.type = 'float';
+          numberDetail.precision = points;
+        }
+      }
+    } else if (Number.isNaN(num) || !Number.isFinite(num)) {
+      numberDetail.type = 'NaN';
+    }
+  
+    numberDetail.number = num;
+    return numberDetail;
   }
 
   return jshelprs;
@@ -1128,48 +1540,70 @@ console.info("jshelprs.js");
 
 export {
   debug,
+  CODES_US_STATES,
   Array_Difference,
   Array_Intersection,
   Array_Unique,
-  Debounce,
   Class_Change,
   Convert_Hex_To_HSL,
   Convert_Hex_To_RGB,
   Convert_Odd_To_Even,
   Convert_RGB_To_HSL,
   Convert_Transform_To_Matrix,
+  Convert_Unix_Time,
   Copy_Array_Values,
+  Copy_To_Clipboard,
   Create_Aspect_Ratio,
   Create_New_Element,
   CSS_To_Matrix,
+  DB,
+  Debounce,
+  DOM_Parser,
+  Fetch_HTML_Template,
+  Fetch_Resource,
   Find_Templates,
+  Fix_This_Float,
+  Format_String,
+  Get_All_Tabbable,
+  Get_Device_Name,
+  Get_File_Format,
   Get_Last_String_Part,
   Get_Media_Query_Size,
   Get_Rando_Num,
   Get_Window_Size,
   Is_Divisible,
+  Is_Empty_Object,
   Iterate,
+  JSON_Prettify,
   KebabClass,
-  NodeDevMode,
+  Make_Querable_Promise,
   Matrix_To_CSS,
+  NodeDevMode,
   Parse,
+  Parse_String_As_Props,
   Print_Object_State,
   Random_Int_Between,
   Replacer,
-  Reviver,
   Report_Error,
+  Reviver,
   Round_Precision,
+  Safely_Run_In_Browser,
   Set_Styles,
   Size_To_Text,
   Sort_By,
   Storage_Test,
   Strip,
+  Supports_Popover,
   To_CamelCase,
+  To_DropCap,
+  To_InitialCaps,
   Toggle_Fullscreen,
   Trigger_Event,
+  Type_Exception,
   TypeOf_Object,
+  Validate_String_As,
   Wait_For_AnimationEnd,
   Wait_For_Display,
   Wait_For_TransitionEnd,
-  Fetch_Resource
+  Wrangle_Number
 }

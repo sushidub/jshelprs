@@ -1,56 +1,93 @@
 /*!
  * module jshelprs <https://github.com/sushidub/jshelprs>
- * version 2.2.0
- * Copyright (c) 2025, Jeremy Graston.
+ * version 2.3.0
+ * Copyright (c) 2026, Jeremy Graston.
  * Licensed under the MIT License.
+ * 
+ * 
+ * 
+ *   2.3.0 Change Log
+ * 
+ *   Copy_To_Clipboard [fix]
+ *     - add missing argument prop to navigator's writeText method -
+ *   
+ *   CSS_To_Matrix [update]  
+ *     add reference as comment
+ * 
+ *   Fetch_HTML_Template (async) [new]
+ *    - retrieve HTMLTemplateElement from .html file using a no-op fetch call -
+ *    @param (string) templatePath
+ *    @param (object) templateSelector
+ *    @return (thennable promise) 
+ * 
+ *   Get_File_Format [new]
+ *     - returns the file format from a given file path -
+ *     @param (string) fullpath
+ *     @return (string)
+ * 
+ *   Get_Media_Query_Size [deprecated]
+ * 
+ *   Get_Window_Size [deprecated]
+ * 
+ *   Safely_Run_In_Browser [removed]
+ * 
+ *   Supports_Popover [new]
+ *     - checks for browsers popover support -
+ *     @return (boolean) true if popover is supported
+ * 
+ * 
  * 
  *   2.2.0 Change Log
  * 
- *   CODES_US_STATES (new array)
- *    list of state name objects whose keys are 'code' (2 letter abbreviation) and state 'name'
- *    e.g. { "code": "CO", "name": "Colorado" }
+ *   CODES_US_STATES [new] 
+ *     - list of state name objects whose keys are 'code' (2 letter abbreviation) and state 'name' -
+ *     e.g. { "code": "CO", "name": "Colorado" }
  * 
- *   Get_All_Tabbable (new method)
- *     starting with the provided DOM element, method uses a forEach iterator to traverse into each of its child elements and index any nested elements with a tab index greater than zero
- *     @param startNode (HTMLElement)
- *     @return array of dom elements whose tab indexes are greater than zero
+ *   Get_All_Tabbable [new] 
+ *     - starting with the provided DOM element, method uses a forEach iterator to traverse into each of its child elements and index any nested elements with a tab index greater than zero -
+ *     @param (HTMLElement) startNode
+ *     @return (array) array of dom elements whose tab indexes are greater than zero
  * 
- *   Make_Querable_Promise (new method)
- *     modify a JS Promise by adding some status properties.
+ *   Make_Querable_Promise [new] 
+ *     - modify a JS Promise by adding some status properties -
  *     Based on: http://stackoverflow.com/questions/21485545/is-there-a-way-to-tell-if-an-es6-promise-is-fulfilled-rejected-resolved
  *     But modified according to the specs of promises : https://promisesaplus.com/
- *     @param promise
+ *     @param (object) promise
  *
- *   Parse_String_As_Props (new method)
- *     matches each segment of the provided 'period concatenated' string with the provided object nested value and returns the value of the last segment
- *     @param str
- *     @param obj
- *     @param splitter
- *     @return value of the last key(prop) in the string
+ *   Parse_String_As_Props [new] 
+ *     - matches each segment of the provided 'period concatenated' string with the provided object nested value and returns the value of the last segment -
+ *     @param (string) str
+ *     @param (object) obj
+ *     @param (string) splitter
+ *     @return (string) value of the last key(prop) in the string
  * 
- *   Wrangle_Number (new method)
- *    tries to determine the type of number passed in (float, int, safeInt, etc)
- *    @param num (any)
- *    @return object with details about what was found
+ *   Wrangle_Number [new] 
+ *     - tries to determine the type of number passed in (float, int, safeInt, etc) -
+ *     @param (any) num 
+ *     @return (object) object with details about what was found
+ * 
  * 
  * 
  *   2.1 Change Log
  *   
- *   debug (new method)
- *     @function format(...props)
- *     @params string (...keys)
- *     @return concatenated keys as string
+ *   debug [new]
+ *     - contextualize your console.log statements -
+ *     using one or more console placeholder syntax (i.e. '%c'), pass context to the placeholder using the appropiate debug property
+ *     usage: console.log('%cThis text will standout in the console, while %cthis text will not.', debug.standout, debug.log)
+ *     
+ *     @return (string) concatenated keys as string
  * 
- *   DB (breaking change)
- *     All methods 
+ *   DB [breaking change]
+ *     - all internal methods -
+ * 
  * 
  * 
  *   2.0 Change Log
  * 
- *   Fetch_Resource (significant update)
- *     Removed the backup XML/AJAX method of which I've never found any usage from.
+ *   Fetch_Resource [update]
+ *     - removed the backup XML/AJAX method of which I've never found any usage from -
  * 
- *   Strip (patch)
+ *   Strip [patch]
  *     Added a conditional check in the very last part of the function where the range contextualFragment 
  *     might not have any children (to return) due to rare scenerios where the parsed template contained 
  *     only one child node of which itself lacked any children of her own.
@@ -75,11 +112,11 @@ const debug = {
   xhr: 'font-size:0.65rem;color:#F1C40F;',
   log: 'font-size:0.65rem;color:#E67E22;',
   // colors
-  orange: 'color: #E67E22;',
-  green: 'color: #2ECC71;',
-  yellow: 'color: #F1C40F;',
-  red: 'color: #C0392C;',
-  purple: 'color: #9B59B6;',
+  orange: 'color:#E67E22;',
+  green: 'color:#2ECC71;',
+  yellow: 'color:#F1C40F;',
+  red: 'color:#C0392C;',
+  purple: 'color:#9B59B6;',
   format: function(...props) {
     let formatting = '';
     props.forEach((prop) => {
@@ -615,6 +652,50 @@ function DOM_Parser(str, id) {
   return fragment;
 }
 
+/**
+ * Retrieve HTMLTemplateElement from .html file using a no-op fetch call.
+ * @param {String} templatePath - /path/to/file/directory/filename.html
+ * @param {Object} [templateSelector] - optional query using the templates attr:value assignment (defaults to root node)
+ * @return 'Thennable' promise. When fulfilled the value contains a DOM tree representation of the HTMLTemplateElement (no shadowroot).
+ */
+async function Fetch_HTML_Template(templatePath, templateSelector) {
+  
+  return fetch(`${templatePath}`).then((res, err) => {
+    if (res) {
+      if (res.ok) {
+        return res.text();
+      } else {
+        console.warn('something went wrong with the response: %o', res);
+      }
+    }
+
+    if (err) return err;
+
+  }).then( (res, err) => {
+
+    if (err) return err;
+
+    const parser = new DOMParser();
+    let fragment = parser.parseFromString(res, 'text/html');
+    if ( fragment.querySelectorAll('html > template').length > 1 && ! templateSelector ) {
+      console.warn("Multiple root template nodes found. You need to pass in a querySelector arguement as the 2nd parameter (templateSelector).");
+      return false;
+    }
+    let templateNode = fragment.querySelector('template');
+    if ( templateSelector ) {
+      let selectorString;
+      for (const prop in templateSelector) {
+        selectorString = `[${prop}=${templateSelector[prop]}]`;
+      }
+      templateNode = fragment.querySelector(selectorString);
+    }
+    console.warn('templateNode: ', templateNode);
+    fragment = templateNode.content.cloneNode(true).children[0];
+    return fragment;
+
+  });
+}
+
 function Fetch_Resource(uri = '', options = {}, handler) {
   let res;
   return new Promise(function(resolve, reject) {
@@ -811,6 +892,10 @@ function Get_Device_Name() {
   return device;
 }
 
+function Get_File_Format(fullpath) {
+  return fullpath.split('.').pop();
+}
+
 function Get_Last_String_Part(str, char) {
   // returns everything after the last occurence of 'char'
   var i = str.lastIndexOf(char) + 1;
@@ -855,7 +940,7 @@ function Get_Rando_Num() {
   return num;
 }
 
-// REFACTOR
+// TODO: refactor
 function Get_Window_Size(media) {
   media = media || false;
   let w = window.innerWidth;
@@ -1046,23 +1131,6 @@ function Set_Styles(elem, props) {
   });
 
   return true;
-}
-
-function Safely_Run_In_Browser(callback) {
-  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-      fallback: function fallback() {
-        return undefined;
-      }
-    },
-    fallback = _ref.fallback;
-
-  if (typeof window === 'undefined') {
-    return fallback();
-  }
-
-  return callback({
-    window: window
-  });
 }
 
 function Size_To_Text(ele, scale) {
@@ -1550,12 +1618,14 @@ export {
   DB,
   Debounce,
   DOM_Parser,
+  Fetch_HTML_Template,
   Fetch_Resource,
   Find_Templates,
   Fix_This_Float,
   Format_String,
   Get_All_Tabbable,
   Get_Device_Name,
+  Get_File_Format,
   Get_Last_String_Part,
   Get_Media_Query_Size,
   Get_Rando_Num,
