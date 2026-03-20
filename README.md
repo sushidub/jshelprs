@@ -79,16 +79,19 @@ import { * } from '<path to>/jshelprs.js'
 `Wrangle_Number`
 
 ## Constants
-`debug`<br>
-*style your `console.log` statements for distinguishing 'at-a-glance' the various arguments passed in*
+`CODES_US_STATES`<br>
+`debug` - *style `console.log` statements for easeier visual distinguishment ('at-a-glance')*
+##### usage
 
 ```js
-console.log('%c my event properties', debug.event);
-// where %c initiates the start of the context style passed in with the debug argument i.e. debug.event
+  // here the `%c` expression initiates the style property: `event` (passed in via the `debug` statement argument)
+  console.log('%c Something happened...', debug.event);
+  Something happened...
 ```
-<details>
-  <summary>debug property types</summary>
-  #### context properties
+
+##### debug property types
+
+- ##### context properties
   `alert: 'font-size:1rem;color:#D35400;'`<br>
   `args: 'font-size:0.65rem;color:#E67E22;'`<br>
   `standout: 'font-size:1.5rem;color:yellow;'`<br>
@@ -102,16 +105,12 @@ console.log('%c my event properties', debug.event);
   `message: 'font-size: 0.65rem;color:#9B59B6;'`<br>
   `xhr: 'font-size: 0.65rem;color:#F1C40F'`<br>
   `log: 'font-size: 0.65rem;color: #E67E22;'`<br>
-  #### color properties
+- ##### color properties
   `orange: 'color: #E67E22;'`<br>
   `green: 'color: #2ECC71;'`<br>
   `yellow: 'color: #F1C40F;'`<br>
   `red: 'color: #C0392C;'`<br>
   `purple: 'color: #9B59B6;'`<br>
-  #### object methods
+- ##### object methods
   `format: (...props) // where props can be any combination of the context and/or color properties e.g. format('small','orange')`
-
-</details>
-
-`CODES_US_STATES`
 
